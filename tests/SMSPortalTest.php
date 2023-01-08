@@ -6,6 +6,7 @@ namespace ScheMeZa\SMSPortal\Tests;
 use ScheMeZa\SMSPortal\EmptyPhoneNumberException;
 use ScheMeZa\SMSPortal\LimitExceededException;
 use ScheMeZa\SMSPortal\ReplacementsException;
+use ScheMeZa\SMSPortal\EmptyMessageException;
 use ScheMeZa\SMSPortal\SMSPortal;
 use ScheMeZa\SMSPortal\SMSPortalServiceProvider;
 
@@ -106,6 +107,24 @@ class ExampleTest extends TestCase
     }
 
 
+
+    /**
+     * @test
+     */
+    public function check_for_exception_if_message_is_empty()
+    {
+        
+        $this->expectException(EmptyMessageException::class);
+
+        $phoneNumber = "0000000000";
+        $message = "";
+
+        $smsportal = new SMSPortal();
+        $smsportal->sendMessage($phoneNumber, $message);
+    
+    }
+
+
     /**
      * @test
      */
@@ -122,6 +141,149 @@ class ExampleTest extends TestCase
     
     }
 
+
+    /**
+     * @test
+     */
+    public function check_for_exception_if_message_string_is_empty()
+    {
+        
+        $this->expectException(EmptyPhoneNumberException::class);
+
+        $phoneNumber = "";
+        $message = "testing";
+
+        $smsportal = new SMSPortal();
+        $smsportal->sendMessage($phoneNumber, $message);
+    
+    }
+
+
+    /**
+     * @test
+     */
+    public function send_message_to_single_string_number()
+    {
+
+        if (config("smsportal.testMode") === false) {
+            throw new \Exception("To run tests please put SMS portal to test mode in the .env file (SMSPORTAL_TEST_MODE=true)");
+        }
+
+        $message = "hello, world";
+        $smsportal = new SMSPortal();
+        $result = $smsportal->sendMessage("0000000000", $message);
+    
+
+        $this->assertTrue((int)$result["cost"] == 1 && empty($result["faults"]));
+        
+    }    
+
+
+
+    /**
+     * @test
+     */
+    public function send_message_to_single_number_in_array()
+    {
+
+        if (config("smsportal.testMode") === false) {
+            throw new \Exception("To run tests please put SMS portal to test mode in the .env file (SMSPORTAL_TEST_MODE=true)");
+        }
+
+        $message = "hello, world";
+        $smsportal = new SMSPortal();
+        $result = $smsportal->sendMessage(["0000000000"], $message);
+    
+
+        $this->assertTrue((int)$result["cost"] == 1 && empty($result["faults"]));
+        
+    } 
+    
+    
+
+    /**
+     * @test
+     */
+    public function send_message_to_multiple_numbers()
+    {
+
+        if (config("smsportal.testMode") === false) {
+            throw new \Exception("To run tests please put SMS portal to test mode in the .env file (SMSPORTAL_TEST_MODE=true)");
+        }
+
+        $message = "hello, world";
+        $smsportal = new SMSPortal();
+        $result = $smsportal->sendMessage(["0000000000", "0000000001"], $message);
+    
+
+        $this->assertTrue((int)$result["cost"] == 2 && empty($result["faults"]));
+        
+    } 
+
+
+    /**
+     * @test
+     */
+    public function test_single_string_replacements()
+    {
+
+        if (config("smsportal.testMode") === false) {
+            throw new \Exception("To run tests please put SMS portal to test mode in the .env file (SMSPORTAL_TEST_MODE=true)");
+        }
+
+        $smsportal = new SMSPortal();
+
+        $message = "hello, ::who::";
+        $replacements = [
+            [
+                [
+                    "key"   => "::who::",
+                    "value" => "world"
+                ]
+            ]
+        ];
+
+        $result = $smsportal->sendMessage(["0000000000", "0000000001"], "hello, world");
+    
+
+        $this->assertTrue($result["sample"] == "hello, world");
+        
+    } 
+
+
+
+    /**
+     * @test
+     */
+    public function test_multiple_string_replacements()
+    {
+
+        if (config("smsportal.testMode") === false) {
+            throw new \Exception("To run tests please put SMS portal to test mode in the .env file (SMSPORTAL_TEST_MODE=true)");
+        }
+
+        $smsportal = new SMSPortal();
+
+        $message = "::greeting::, ::who::";
+        $replacements = [
+            [
+                [
+                    "key"   => "::greeting::",
+                    "value" => "hello"
+                ],
+                [
+                    "key"   => "::who::",
+                    "value" => "world"
+                ]
+            ]
+        ];
+
+        $result = $smsportal->sendMessage(["0000000000", "0000000001"], "hello, world");
+    
+
+        $this->assertTrue($result["sample"] == "hello, world");
+        
+    } 
 
 
 }

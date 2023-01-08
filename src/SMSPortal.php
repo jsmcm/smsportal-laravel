@@ -2,8 +2,6 @@
 
 namespace ScheMeZa\SMSPortal;
 
-use ScheMeZa\SMSPortal\EmptyPhoneNumber;
-
 use Illuminate\Support\Facades\Http;
 
 class SMSPortal
@@ -35,7 +33,13 @@ class SMSPortal
     {
         $clientId   = config('smsportal.client_id');
         $secret     = config('smsportal.secret');
+        $testMode   = config("smsportal.testMode");
+
         $authBase64 = base64_encode("$clientId:$secret");
+
+        if (trim($message) == "") {
+            throw new EmptyMessageException("Message is empty.", 4000);
+        }
 
         $tokenResponse = Http::withHeaders(['Authorization' => "Basic ".$authBase64])
                              ->get('https://rest.smsportal.com/v1/authentication');
@@ -74,7 +78,7 @@ class SMSPortal
 
 
             if (count($phoneNumber) > 100) {
-                throw new LimitExceededException("Error, SMS Portal has a limit of 100 messages per batch. Please batch your sends and try again.");
+                throw new LimitExceededException("SMS Portal has a limit of 100 messages per batch. Please batch your sends and try again.");
             }
 
             if (count($phoneNumber) == 0) {
@@ -95,11 +99,15 @@ class SMSPortal
                 ];
             }
         }
-        
 
         return Http::withToken($token)
-                   ->post("https://rest.smsportal.com/v1/bulkmessages", [
-                       'messages' => $messages,
-                   ])->json();
+                   ->post("https://rest.smsportal.com/v1/bulkmessages", 
+                    [
+                        "sendOptions"   => [
+                            "testMode"  => $testMode,
+                        ],
+                        'messages' => $messages,
+                    ]
+                   )->json();
     }
 }
