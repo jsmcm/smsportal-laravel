@@ -1,24 +1,24 @@
 {
-    "name": "schemeza/smsportal-laravel",
+    "name": "softsmart/smsportal-laravel",
     "description": "Integration package for SMSPortal into Laravel.",
     "keywords": [
-        "schemeza",
+        "softsmart",
         "smsportal-laravel",
         "smsportal"
     ],
-    "homepage": "https://github.com/schemeza/smsportal-laravel",
+    "homepage": "https://github.com/jsmcm/smsportal-laravel",
     "license": "MIT",
     "type": "library",
     "authors": [
         {
-            "name": "Jadon Brown",
-            "email": "jaybeezorr@gmail.com",
+            "name": "John McMurray",
+            "email": "john@softsmart.co.za",
             "role": "Developer"
         },
         {
-            "name": "John McMurray",
-            "email": "john@softsmart.co.za",
-            "role": "Constributor"
+            "name": "Jadon Brown",
+            "email": "jaybeezorr@gmail.com",
+            "role": "Original Developer"
         }
     ],
     "require": {
@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ScheMeZa\\SMSPortal\\": "src"
+            "SoftSmart\\SMSPortal\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ScheMeZa\\SMSPortal\\Tests\\": "tests"
+            "SoftSmart\\SMSPortal\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -49,10 +49,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ScheMeZa\\SMSPortal\\SMSPortalServiceProvider"
+                "SoftSmart\\SMSPortal\\SMSPortalServiceProvider"
             ],
             "aliases": {
-                "SMSPortal": "ScheMeZa\\SMSPortal\\SMSPortalFacade"
+                "SMSPortal": "SoftSmart\\SMSPortal\\SMSPortalFacade"
             }
         }
     }

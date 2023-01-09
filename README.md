@@ -1,9 +1,7 @@
 # SMSPortal Laravel Package
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/schemeza/smsportal-laravel.svg?style=flat-square)](https://packagist.org/packages/schemeza/smsportal-laravel)
-[![Build Status](https://img.shields.io/travis/schemeza/smsportal-laravel/master.svg?style=flat-square)](https://travis-ci.org/schemeza/smsportal-laravel)
-[![Quality Score](https://img.shields.io/scrutinizer/g/schemeza/smsportal-laravel.svg?style=flat-square)](https://scrutinizer-ci.com/g/schemeza/smsportal-laravel)
-[![Total Downloads](https://img.shields.io/packagist/dt/schemeza/smsportal-laravel.svg?style=flat-square)](https://packagist.org/packages/schemeza/smsportal-laravel)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/softsmart/smsportal-laravel.svg?style=flat-square)](https://packagist.org/packages/softsmart/smsportal-laravel)
+[![Total Downloads](https://img.shields.io/packagist/dt/softsmart/smsportal-laravel.svg?style=flat-square)](https://packagist.org/packages/softsmart/smsportal-laravel)
 
 Third party package created to consume the SMSPortal RESTful API to send SMS's to phone numbers.
 
@@ -12,7 +10,7 @@ Third party package created to consume the SMSPortal RESTful API to send SMS's t
 You can install the package via composer:
 
 ```bash
-composer require schemeza/smsportal-laravel
+composer require softsmart/smsportal-laravel
 ```
 
 Set these `.env` variables:
@@ -20,6 +18,7 @@ Set these `.env` variables:
 SMSPORTAL_BASE_URL=https://rest.smsportal.com/v1
 SMSPORTAL_CLIENT_ID=
 SMSPORTAL_SECRET=
+SMSPORTAL_TEST_MODE=true/false
 ```
 
 You can find your client id & secret in your [SMSPortal control panel](https://cp.smsportal.com/app/#/login).
@@ -50,10 +49,11 @@ SMSPortal::sendMessage($numbers, 'Hello world!');
 
 $numbers = [
     "0000000000",
-    "00000000001",
+    "0000000001",
 ];
 
 $replacements = [
+    // first replacement
     [
         [
             "key"   => "::first_name::",
@@ -64,6 +64,7 @@ $replacements = [
             "value" => "hot",
         ]
     ],
+    // second replacement
     [
         [
             "key"   => "::first_name::",
@@ -90,10 +91,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email jaybeezorr@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please make use of the issue tracker.
 
 ## Credits
 
+- [John McMurray](https://github.com/jsmcm)
 - [Jadon Brown](https://github.com/schemeza)
 - [All Contributors](../../contributors)
 

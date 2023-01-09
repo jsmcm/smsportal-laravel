@@ -1,6 +1,6 @@
 <?php
 
-namespace ScheMeZa\SMSPortal;
+namespace SoftSmart\SMSPortal;
 
 class EmptyPhoneNumberException extends \Exception
 {

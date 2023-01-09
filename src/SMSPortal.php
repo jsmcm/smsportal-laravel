@@ -1,6 +1,6 @@
 <?php
 
-namespace ScheMeZa\SMSPortal;
+namespace SoftSmart\SMSPortal;
 
 use Illuminate\Support\Facades\Http;
 

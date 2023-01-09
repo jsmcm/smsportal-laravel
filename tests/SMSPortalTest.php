@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace ScheMeZa\SMSPortal\Tests;
+namespace SoftSmart\SMSPortal\Tests;
 
-use ScheMeZa\SMSPortal\EmptyPhoneNumberException;
-use ScheMeZa\SMSPortal\LimitExceededException;
-use ScheMeZa\SMSPortal\ReplacementsException;
-use ScheMeZa\SMSPortal\EmptyMessageException;
-use ScheMeZa\SMSPortal\SMSPortal;
-use ScheMeZa\SMSPortal\SMSPortalServiceProvider;
+use SoftSmart\SMSPortal\EmptyPhoneNumberException;
+use SoftSmart\SMSPortal\LimitExceededException;
+use SoftSmart\SMSPortal\ReplacementsException;
+use SoftSmart\SMSPortal\EmptyMessageException;
+use SoftSmart\SMSPortal\SMSPortal;
+use SoftSmart\SMSPortal\SMSPortalServiceProvider;
 
 
 use Tests\TestCase;

@@ -1,11 +1,11 @@
 <?php
 
-namespace ScheMeZa\SMSPortal;
+namespace SoftSmart\SMSPortal;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \ScheMeZa\SMSPortal\Skeleton\SkeletonClass
+ * @see \SoftSmart\SMSPortal\Skeleton\SkeletonClass
  */
 class SMSPortalFacade extends Facade
 {
