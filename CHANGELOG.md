@@ -7,7 +7,7 @@ All notable changes to `smsportal-laravel` will be documented in this file
 - Added ability to send a single message to multiple numbers at once, including text replacements
 - Added custom exception classes
 - Added unit tests
-- Added a test mode config setting so that SMS can be tested without actually being sent
+- Added a test mode config setting so that SMS can be tested without actually being sent during dev/testing
 
 ## 1.0.0 - 201X-XX-XX
 
