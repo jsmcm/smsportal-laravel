@@ -28,6 +28,12 @@ You can find your client id & secret in your [SMSPortal control panel](https://c
 ``` php
 // To send a message to a single phone number
 SMSPortal::sendMessage('0112223333', 'Hello world!');
+
+// To send a message to a single phone number later
+// NOTES: even though replacements is not used for single SMS we still need to
+// account for its place (this may change with named parameters in PHP8 in later versions)
+// date time is a string in GMT+2 timezone
+SMSPortal::sendMessage('0112223333', 'Hello world!', [], "2023-01-12 12:34:33");
 ```
 
 ``` php
@@ -39,6 +45,12 @@ $numbers = [
 ];
 
 SMSPortal::sendMessage($numbers, 'Hello world!');
+
+// To send a message to a multiple phone numbers later
+// NOTES: must account for replacements place (this may change with named parameters in PHP8 in later versions)
+// date time is a string in GMT+2 timezone
+SMSPortal::sendMessage($numbers, 'Hello world!', [], "2023-01-12 12:34:33");
+
 ```
 
 
@@ -78,6 +90,11 @@ $replacements = [
 ]
 
 SMSPortal::sendMessage($numbers, 'Hello ::first_name::, today is ::weather::!', $replacements);
+
+// To send a message to a multiple phone numbers later
+// date time is a string in GMT+2 timezone
+SMSPortal::sendMessage($numbers, 'Hello ::first_name::, today is ::weather::!', $replacements, "2023-01-12 12:34:33");
+
 ```
 
 
