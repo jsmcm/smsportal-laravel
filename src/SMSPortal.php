@@ -3,6 +3,7 @@
 namespace SoftSmart\SMSPortal;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Carbon;
 
 class SMSPortal
 {
@@ -27,13 +28,27 @@ class SMSPortal
      * @param  string|array $phoneNumber This value is used to send the message(s) to.
      * @param  string $message This value is used as the contents of the message sent to the phone number(s).
      * @param  array $replacements Optional replacement values when sending to multiple phoneNumbers (eg $replacements[ ["key"=>"value ] ]). If set the number of replacements must be equal to the number of phoneNumbers
+     * @param  string $sendAt Optional time to send the message in UCT
      * @return array The SMSPortal RESTful API Response.
      */
-    public function sendMessage(string|array $phoneNumber, string $message, array $replacements=[])
+    public function sendMessage(string|array $phoneNumber, string $message, array $replacements=[], string $sendAt="")
     {
         $clientId   = config('smsportal.client_id');
         $secret     = config('smsportal.secret');
         $testMode   = config("smsportal.testMode");
+
+
+        $sendAtGMT = null;
+        if ($sendAt == "") {
+            // Not set, use now's time but SMS portal wants it in UCT
+            $sendAtGMT = Carbon::createFromTimestamp(time(), "GMT+2");
+        } else {
+            // Use the passed in GMT time and convert it to UCT
+            $sendAtGMT = Carbon::createFromFormat('Y-m-d H:i:s', $sendAt, 'GMT+2');
+        }   
+        
+        $sendAtUCT = $sendAtGMT->setTimezone("UCT")->format("Y-m-d\TH:i:s.01\Z");
+        
 
         $authBase64 = base64_encode("$clientId:$secret");
 
@@ -104,7 +119,8 @@ class SMSPortal
                    ->post("https://rest.smsportal.com/v1/bulkmessages", 
                     [
                         "sendOptions"   => [
-                            "testMode"  => $testMode,
+                            "testMode"          => $testMode,
+                            "startDeliveryUtc"  => $sendAtUCT,
                         ],
                         'messages' => $messages,
                     ]
