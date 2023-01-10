@@ -183,6 +183,27 @@ class ExampleTest extends TestCase
     /**
      * @test
      */
+    public function send_message_with_sendAt_set()
+    {
+
+        if (config("smsportal.testMode") === false) {
+            throw new \Exception("To run tests please put SMS portal to test mode in the .env file (SMSPORTAL_TEST_MODE=true)");
+        }
+
+        $message = "hello, world";
+        $sendAt = \Carbon\Carbon::now()->format("Y-m-d H:i:s");
+        $smsportal = new SMSPortal();
+        $result = $smsportal->sendMessage("0000000000", $message, [], $sendAt);
+    
+        $this->assertTrue((int)$result["cost"] == 1 && empty($result["faults"]));
+        
+    }    
+
+
+
+    /**
+     * @test
+     */
     public function send_message_to_single_number_in_array()
     {
 
